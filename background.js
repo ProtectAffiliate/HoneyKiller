@@ -14,24 +14,39 @@
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   if (msg.type !== 'BLOCK_DETECTED') return false;
 
-  chrome.storage.local.get(['totalBlocked', 'blockHistory'], (data) => {
-    const total   = (data.totalBlocked  || 0) + 1;
-    const history = (data.blockHistory  || []);
+  chrome.storage.local.get(['totalBlocked', 'blockHistory', 'protectedPairs'], (data) => {
+    const history      = (data.blockHistory   || []);
+    const pairs        = (data.protectedPairs || []);  // ["amazon.com:Honey", ...]
 
+    // Always record the full history entry (for the popup detail list)
     history.unshift({
       thief:     msg.thief,
       merchant:  msg.merchant,
       timestamp: msg.timestamp
     });
 
+    // Only increment the count the FIRST time this (domain + extension) combination
+    // is seen — so reloading the same page never inflates the number.
+    const pairKey = `${msg.merchant}:${msg.thief}`;
+    const isNew   = !pairs.includes(pairKey);
+
+    if (isNew) pairs.push(pairKey);
+
+    const total = isNew
+      ? (data.totalBlocked || 0) + 1
+      : (data.totalBlocked || 0);
+
     chrome.storage.local.set({
-      totalBlocked: total,
-      blockHistory: history.slice(0, 50)   // keep last 50 events
+      totalBlocked:   total,
+      blockHistory:   history.slice(0, 50),   // keep last 50 events
+      protectedPairs: pairs                    // grows forever (small strings)
     });
 
-    // Badge shows the lifetime block count
-    chrome.action.setBadgeText({ text: String(total) });
-    chrome.action.setBadgeBackgroundColor({ color: '#ef4444' });
+    if (isNew) {
+      // Badge only updates when a genuinely new protection happens
+      chrome.action.setBadgeText({ text: String(total) });
+      chrome.action.setBadgeBackgroundColor({ color: '#ef4444' });
+    }
   });
 
   sendResponse({ ok: true });
