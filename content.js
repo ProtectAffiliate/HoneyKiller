@@ -118,6 +118,10 @@ const INTERCEPTORS = [
       });
       if (removed > 0) _freeze('pe_data');
       return removed > 0;
+    }
+  },
+
+  {
     name: 'RetailMeNot',
     owner: 'Ziff Davis',
     detect() {
