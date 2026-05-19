@@ -3,7 +3,7 @@
   "name": "HoneyKiller — Commission Protection",
   "short_name": "HoneyKiller",
   "version": "1.0.0",
-  "description": "Blocks Honey, Capital One Shopping, Rakuten and other extensions that override affiliate attribution at checkout. Protects your affiliate earnings. Free. Open source.",
+  "description": "Blocks Honey, Capital One Shopping, Rakuten and every commission-stealing extension from overriding your affiliate tags at checkout.",
 
   "permissions": ["storage"],
 
