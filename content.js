@@ -97,8 +97,11 @@ const INTERCEPTORS = [
     name: 'Rakuten',
     owner: 'Rakuten Group',
     detect() {
+      // NOTE: window.pe_data is intentionally excluded — Amazon's own pages set
+      // it as part of the Rakuten affiliate network (merchant side), causing false
+      // positives. Only DOM elements injected by the actual Rakuten browser
+      // extension are used as detection signals.
       return !!(
-        window.pe_data !== undefined ||
         document.getElementById('pe-bar') ||
         document.querySelector('[class*="rakuten-ext"]') ||
         document.querySelector('[id*="ebates"]') ||
