@@ -319,6 +319,31 @@ _observer.observe(document.documentElement, {
   } catch (_) {}
 })();
 
+// ─── Honey v19+ detection via postMessage ─────────────────────────────────────
+//
+// Honey v19 no longer injects DOM elements on Amazon.
+// Instead, its background service worker uses webRequest permissions to
+// intercept affiliate tags. It injects requestProxies.js into the page's main
+// world, which wraps window.fetch and XMLHttpRequest.prototype.send and
+// announces every request via window.postMessage({messageId:"honey:couponResProxy"}).
+//
+// Chrome content scripts CAN receive window.postMessage events from the main
+// world. We listen for this exact message ID — it only fires when Honey is
+// actively running and intercepting network requests on this page.
+
+(function listenForHoneyMessages() {
+  const honeyInterceptor = INTERCEPTORS.find(i => i.name === 'Honey');
+  if (!honeyInterceptor) return;
+  window.addEventListener('message', function onHoneyMessage(e) {
+    if (!e.data || e.data.messageId !== 'honey:couponResProxy') return;
+    // Honey is actively intercepting requests on this page.
+    honeyInterceptor.suppress();
+    reportBlock(honeyInterceptor);
+    // Once detected, no need to keep listening — remove the handler.
+    window.removeEventListener('message', onHoneyMessage);
+  });
+})();
+
 // ─── Initial scan ─────────────────────────────────────────────────────────────
 //
 // Runs immediately at document_start. The MutationObserver handles anything
