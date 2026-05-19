@@ -33,27 +33,37 @@ const INTERCEPTORS = [
     name: 'Honey',
     owner: 'PayPal',
     detect() {
+      // v19+: Honey appends a React root div directly to <html> (sibling to
+      // <body>, not inside it) with a closed shadow root containing honeyStyle.
+      // This is the only reliable DOM signal for Honey v19.
+      const hasV19Root = Array.from(document.documentElement.children).some(
+        el => el !== document.head && el !== document.body &&
+              el.tagName === 'DIV' && el.hasAttribute('data-reactroot')
+      );
+      if (hasV19Root) return true;
+      // Legacy v18 signals (kept for older installs)
       return !!(
         document.getElementById('honey-bar') ||
         document.getElementById('honey-iframe') ||
-        document.getElementById('HoneyContainer') ||
         document.querySelector('[id^="HoneyContainer"]') ||
-        document.querySelector('[id^="honey-"]') ||
-        document.querySelector('[class*="honey-extension"]') ||
         document.querySelector('honey-button') ||
         window.honey !== undefined ||
-        window.HoneyBEX !== undefined ||
-        window.__honey !== undefined
+        window.HoneyBEX !== undefined
       );
     },
     suppress() {
+      // v19+: remove the React root panel injected as sibling to <body>
+      Array.from(document.documentElement.children).forEach(el => {
+        if (el !== document.head && el !== document.body &&
+            el.tagName === 'DIV' && el.hasAttribute('data-reactroot')) {
+          el.remove();
+        }
+      });
+      // Legacy v18 cleanup
       [
         '#honey-bar',
         '#honey-iframe',
-        '#HoneyContainer',
         '[id^="HoneyContainer"]',
-        '[id^="honey-"]',
-        '[class*="honey-extension"]',
         'honey-button'
       ].forEach(sel => {
         document.querySelectorAll(sel).forEach(el => el.remove());

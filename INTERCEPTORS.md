@@ -31,15 +31,17 @@ recorded with the merchant order.
 
 ### Detection signatures
 
-| Type | Signal |
-|---|---|
-| DOM element | `#honey-bar` |
-| DOM element | `#honey-iframe` |
-| DOM element | `[id^="HoneyContainer"]` |
-| DOM element | `[id^="honey-"]` |
-| Custom element | `honey-button` |
-| Global variable | `window.honey` |
-| Global variable | `window.HoneyBEX` |
+| Type | Signal | Version |
+|---|---|---|
+| DOM element | `html > div[data-reactroot]` (sibling to `<body>`, closed shadow root containing `#honeyStyle`) | v19+ |
+| Custom element | `honey-button` | v18 legacy |
+| DOM element | `#honey-bar` | v18 legacy |
+| DOM element | `#honey-iframe` | v18 legacy |
+| DOM element | `[id^="HoneyContainer"]` | v18 legacy |
+| Global variable | `window.honey` | v18 legacy |
+| Global variable | `window.HoneyBEX` | v18 legacy |
+
+> **v19 mechanism:** Honey injects a React app (`h1-vendors-main-popover.js`) directly into `document.documentElement` as a sibling to `<body>`. The panel uses a **closed shadow root** internally, so selectors inside it (e.g. `#honeyStyle`) are not queryable from outside. The container `div[data-reactroot]` at `html >` level is the reliable signal.
 
 ---
 
