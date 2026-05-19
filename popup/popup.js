@@ -62,7 +62,7 @@ function render(totalBlocked, blockHistory) {
 
   if (recent.length === 0) {
     list.innerHTML =
-      '<li class="block-empty">No thefts detected yet.<br />HoneyKiller is watching.</li>';
+      '<li class="block-empty">No blocks detected yet.<br />HoneyKiller is watching.</li>';
     return;
   }
 
@@ -77,8 +77,37 @@ function render(totalBlocked, blockHistory) {
   `).join('');
 }
 
+// ─── Review prompt ───────────────────────────────────────────────────────────
+
+function showReviewPrompt() {
+  const section = document.getElementById('review-prompt');
+  if (!section) return;
+
+  // Build the Chrome Web Store review URL using this extension's own ID
+  const reviewUrl = `https://chromewebstore.google.com/detail/${chrome.runtime.id}/reviews`;
+  document.getElementById('review-yes').href = reviewUrl;
+
+  section.style.display = 'block';
+
+  document.getElementById('review-yes').addEventListener('click', () => {
+    chrome.storage.local.set({ reviewGiven: true, pendingReviewPrompt: false });
+    // Popup closes naturally when the new tab opens
+  });
+
+  document.getElementById('review-no').addEventListener('click', () => {
+    section.style.display = 'none';
+    chrome.storage.local.set({ pendingReviewPrompt: false });
+  });
+}
+
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 
-chrome.storage.local.get(['totalBlocked', 'blockHistory'], (data) => {
+chrome.storage.local.get(['totalBlocked', 'blockHistory', 'pendingReviewPrompt', 'reviewGiven'], (data) => {
   render(data.totalBlocked || 0, data.blockHistory || []);
+
+  if (data.pendingReviewPrompt && !data.reviewGiven) {
+    showReviewPrompt();
+    // Clear the flag so it won't show again until background triggers the next one
+    chrome.storage.local.set({ pendingReviewPrompt: false });
+  }
 });

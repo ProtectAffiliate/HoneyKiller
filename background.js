@@ -14,7 +14,7 @@
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   if (msg.type !== 'BLOCK_DETECTED') return false;
 
-  chrome.storage.local.get(['totalBlocked', 'blockHistory', 'protectedPairs'], (data) => {
+  chrome.storage.local.get(['totalBlocked', 'blockHistory', 'protectedPairs', 'reviewGiven', 'lastReviewPromptDate'], (data) => {
     const history      = (data.blockHistory   || []);
     const pairs        = (data.protectedPairs || []);  // ["amazon.com:Honey", ...]
 
@@ -46,6 +46,15 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       // Badge only updates when a genuinely new protection happens
       chrome.action.setBadgeText({ text: String(total) });
       chrome.action.setBadgeBackgroundColor({ color: '#ef4444' });
+
+      // Ask for a review at most once per day, and never again after they give one
+      const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+      if (!data.reviewGiven && data.lastReviewPromptDate !== today) {
+        chrome.storage.local.set({
+          pendingReviewPrompt:  true,
+          lastReviewPromptDate: today
+        });
+      }
     }
   });
 
