@@ -11,7 +11,8 @@ Free. Open source. Zero tracking. Built by [ProtectAffiliate](https://protectaff
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Install%20Free-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](#install)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Install%20Free-FF7139?style=for-the-badge&logo=firefox&logoColor=white)](#install)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/honeykiller)
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/lalitntaparia)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/honeykiller)
 [![GitHub Stars](https://img.shields.io/github/stars/ProtectAffiliate/HoneyKiller?style=for-the-badge&color=ef4444)](https://github.com/ProtectAffiliate/HoneyKiller)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -220,8 +221,11 @@ how to find an extension's DOM fingerprint and submit a PR.
 HoneyKiller is free, open source, and always will be. No paid tier. No ads.
 No data collection.
 
-If it helped a creator you follow keep their commission — or if you just
-think the internet should work this way — a coffee goes a long way:
+**GitHub Sponsors** — preferred (zero fees, shows on the repo, recurring or one-time):
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/lalitntaparia)
+
+**Buy Me a Coffee** — quick one-time support:
 
 [![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20us%20a%20coffee&emoji=☕&slug=honeykiller&button_colour=ef4444&font_colour=ffffff&font_family=Inter&outline_colour=ffffff&coffee_colour=FFDD00)](https://buymeacoffee.com/honeykiller)
 
