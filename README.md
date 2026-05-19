@@ -1,4 +1,8 @@
-# 🔪 HoneyKiller
+<p align="center">
+  <img src="icons/icon128.png" width="96" alt="HoneyKiller">
+</p>
+
+# HoneyKiller — Support Your Creators
 
 **Honey doesn't save you money. It takes the commission from the blogger who
 recommended the product — and keeps it for PayPal.**
