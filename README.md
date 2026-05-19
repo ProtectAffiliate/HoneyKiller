@@ -4,12 +4,9 @@
 
 # HoneyKiller — Support Your Creators
 
-**Honey doesn't save you money. It takes the commission from the blogger who
-recommended the product — and keeps it for PayPal.**
+**Some browser extensions quietly reroute your affiliate commission at checkout — without lowering the buyer's price by a single cent. The creator gets nothing. The extension gets paid instead.**
 
-HoneyKiller blocks Honey, Capital One Shopping, Rakuten, and every extension
-that overrides affiliate attribution at checkout. The creator gets credited.
-You pay the exact same price you always would.
+HoneyKiller blocks every extension that overrides affiliate attribution at checkout. The creator gets credited. You pay the exact same price you always would.
 
 Free. Open source. Zero tracking. Built by [ProtectAffiliate](https://protectaffiliate.com).
 
@@ -24,30 +21,19 @@ Free. Open source. Zero tracking. Built by [ProtectAffiliate](https://protectaff
 
 ## What Is Actually Happening at Checkout
 
-You spent hours writing a review. Your reader trusted you, clicked your link,
-and landed on Amazon with your affiliate tag in the URL:
+You spent hours making a video, writing a review, or curating a recommendation. Your audience trusted you, clicked your link, and landed on the product page with your affiliate tag in the URL:
 
 ```
-https://amazon.com/dp/B09XYZ123?tag=yourblog-20
+https://amazon.com/dp/B09XYZ123?tag=yourchannel-20
 ```
 
-Then Honey pops up. *"I found you a reward!"* Your reader clicks it. Honey's
-checkout overlay runs. By the time the order goes through:
+Then a "coupon finder" extension pops up. *"I found you a reward!"* Your viewer clicks it. The extension's checkout overlay runs. By the time the order goes through, your affiliate tag has been silently replaced.
 
-```
-https://amazon.com/dp/B09XYZ123?tag=honey-20
-```
+**Your commission: $0. The extension's commission: theirs.**
 
-**Your commission: $0. Honey's commission: ~$6.**
+These extensions replace the affiliate attribution in your audience's browser at checkout with their own tag. This practice has been widely documented by publishers and content creators across the industry.
 
-Honey — owned by PayPal, acquired for **$4 billion** — replaces the affiliate
-attribution in your reader's browser at checkout with their own. This practice
-has been widely documented by publishers and technology journalists.
-
-> In December 2024, a [viral YouTube investigation](https://www.youtube.com/watch?v=vc4yL3YTwWk)
-> with 10 million views documented how Honey's checkout overlay works. The U.S. FTC
-> has subsequently received complaints about these practices. And yet — **17 million
-> people still have it installed.**
+> An independent investigation published in late 2024 documented exactly how these checkout overlays work and reached over 10 million views. **Tens of millions of people worldwide have these extensions installed.**
 
 ---
 
@@ -56,16 +42,16 @@ has been widely documented by publishers and technology journalists.
 The following browser extensions are documented to replace or override affiliate
 attribution parameters at merchant checkout pages.
 
-| Extension | Owner | Est. Users | Documented Behavior |
-|---|---|---|---|
-| **Honey** | PayPal (acq. $4B) | 17M | Replaces `tag=` param at checkout |
-| **Capital One Shopping** | Capital One Financial | 10M | Overrides affiliate referral IDs |
-| **Rakuten / Ebates** | Rakuten Group (Japan) | 12M | Injects its own checkout overlay |
-| **RetailMeNot** | Ziff Davis | 5M | Replaces tracking parameters |
-| **Piggy** | Piggy Ltd | 3M | Intercepts checkout affiliate sessions |
-| **Coupert** | Coupert | 2M | Overrides affiliate attribution |
-| **DealFinder** | Various | 1M+ | Replaces affiliate tags at checkout |
-| **Cently** | Cently | 500K+ | Substitutes affiliate attribution |
+| Extension | Est. Users | Behavior at Checkout |
+|---|---|---|
+| **Honey** | 17M | May override affiliate attribution |
+| **Capital One Shopping** | 10M | May override affiliate referral IDs |
+| **Rakuten** | 12M | Injects checkout overlay |
+| **RetailMeNot** | 5M | May replace tracking parameters |
+| **Piggy** | 3M | Intercepts checkout sessions |
+| **Coupert** | 2M | May override affiliate attribution |
+| **DealFinder** | 1M+ | May replace affiliate tags |
+| **Cently** | 500K+ | May substitute affiliate attribution |
 
 **Combined: ~50 million browsers that can override affiliate attribution at checkout.**
 
@@ -143,56 +129,67 @@ does and does not do:
 
 **HoneyKiller's minimal permission set is not a limitation — it is the point.**
 
-Compare to Honey, which requests access to *all websites you visit*, your
-complete browsing history, and data on every tab you have open.
+Compare this to extensions that typically request access to *all websites you visit*, your complete browsing history, and data on every tab you have open.
 
 ---
 
-## I'm Just a Reader. Why Should I Install This?
+## I'm Just a Viewer/Reader. Why Should I Install This?
 
-Because **Honey doesn't actually save you money** — and most people don't
-know that.
+Because **these extensions don't actually save you money** — and most people don't know that.
 
-When Honey shows its "I found you a reward!" overlay at checkout, the retailer's
-price does not change. Amazon doesn't lower their price. The number you pay is
-identical whether Honey is there or not.
+When one of these extensions shows its "I found you a reward!" overlay at checkout, the retailer's price does not change. The number you pay is identical whether the extension is there or not.
 
 What *does* change is who gets credited for sending you there:
 
 | Without HoneyKiller | With HoneyKiller |
 |---|---|
-| Honey's overlay runs | Overlay is silently removed |
-| Commission goes to PayPal | Commission goes to the blogger/creator |
+| Extension overlay runs | Overlay is silently removed |
+| Commission goes to the extension | Commission goes to the creator |
 | Your price: the same | Your price: the same |
 
-**You pay exactly the same either way. The only question is whether
-the person who helped you find the product gets paid for it.**
+**You pay exactly the same either way. The only question is whether the person who helped you find the product gets paid for it.**
 
-YouTubers, bloggers, and review sites earn a small commission when you click
-their link and buy something. That is how independent content creation is
-funded. Extensions like Honey intercept that attribution at checkout and
-redirect it to themselves — without the retailer lowering your price by even
-a cent.
+YouTubers, bloggers, podcasters, newsletter writers, and review sites earn a small commission when you click their link and buy something. That is how independent content creation is funded. These extensions intercept that attribution at checkout and redirect it to themselves — without the retailer lowering your price by even a cent.
 
-Installing HoneyKiller costs you nothing. It means the creators you read
-actually get credited for the recommendation.
+Installing HoneyKiller costs you nothing. It means every creator you follow actually gets credited for their recommendation.
 
 ---
 
-## For Bloggers: Full Analytics
+## Are You a Creator? Share This With Your Audience
 
-HoneyKiller's popup shows how many thefts have been blocked on your own device.
+Whether you're a YouTuber, blogger, podcaster, newsletter writer, TikToker, or any kind of content creator — your audience is the single most powerful way to protect your income.
 
-If you want to see **which of your readers are protected** — and how much
-commission has been saved across your entire audience — that is
-[ProtectAffiliate.com](https://protectaffiliate.com).
+**Here's the reality:** Some of your viewers and readers have browser extensions installed that quietly reroute your affiliate commission at checkout. The link worked. They bought the product you recommended. You just didn't get paid for it.
 
-ProtectAffiliate is the paid analytics platform behind HoneyKiller:
+When your audience installs HoneyKiller, their checkout is protected — and your commission comes back to you, automatically, every time.
 
-- A lightweight script you add to your site (like Google Analytics)
-- Real-time data: which readers have commission-stealing extensions installed
-- Estimated commission value at risk, by post and by extension
-- A shareable *"My readers are protected"* badge for your site
+### How to share it
+
+Copy this into your next video description, blog post, newsletter, or caption:
+
+> *"If you buy through my links, please take 30 seconds to install*
+> *[HoneyKiller](https://github.com/ProtectAffiliate/HoneyKiller) —*
+> *it's free, open source, and makes sure I actually get credited when you shop.*
+> *Costs you nothing. Means everything to me."*
+
+Or share the direct [install link](#install) with your audience.
+
+**Every person in your audience who installs it is a commission you keep.**
+
+---
+
+## For Creators: Full Analytics
+
+HoneyKiller's popup shows how many attribution overrides have been blocked on your own device.
+
+If you want to see **which of your audience members are protected** — and how much commission has been saved across your entire following — that is [ProtectAffiliate.com](https://protectaffiliate.com).
+
+ProtectAffiliate is the analytics platform behind HoneyKiller:
+
+- A lightweight script you add to your site or link in your bio (like Google Analytics)
+- Real-time data: which audience members have attribution-overriding extensions installed
+- Estimated commission value at risk, by post, video, or episode and by extension
+- A shareable *"My audience is protected"* badge for your site or channel
 
 **HoneyKiller is always free. ProtectAffiliate is the upgrade.**
 
