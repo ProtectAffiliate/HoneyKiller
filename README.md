@@ -1,11 +1,17 @@
 # 🔪 HoneyKiller
 
-**Honey overrides your affiliate tag every time a reader checks out. So does Capital One Shopping, Rakuten, RetailMeNot, Piggy, and ~50 million other browsers. HoneyKiller blocks all of them.**
+**Honey doesn't save you money. It takes the commission from the blogger who
+recommended the product — and keeps it for PayPal.**
+
+HoneyKiller blocks Honey, Capital One Shopping, Rakuten, and every extension
+that overrides affiliate attribution at checkout. The creator gets credited.
+You pay the exact same price you always would.
 
 Free. Open source. Zero tracking. Built by [ProtectAffiliate](https://protectaffiliate.com).
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Install%20Free-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](#install)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Install%20Free-FF7139?style=for-the-badge&logo=firefox&logoColor=white)](#install)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/honeykiller)
 [![GitHub Stars](https://img.shields.io/github/stars/ProtectAffiliate/HoneyKiller?style=for-the-badge&color=ef4444)](https://github.com/ProtectAffiliate/HoneyKiller)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -137,6 +143,37 @@ complete browsing history, and data on every tab you have open.
 
 ---
 
+## I'm Just a Reader. Why Should I Install This?
+
+Because **Honey doesn't actually save you money** — and most people don't
+know that.
+
+When Honey shows its "I found you a reward!" overlay at checkout, the retailer's
+price does not change. Amazon doesn't lower their price. The number you pay is
+identical whether Honey is there or not.
+
+What *does* change is who gets credited for sending you there:
+
+| Without HoneyKiller | With HoneyKiller |
+|---|---|
+| Honey's overlay runs | Overlay is silently removed |
+| Commission goes to PayPal | Commission goes to the blogger/creator |
+| Your price: the same | Your price: the same |
+
+**You pay exactly the same either way. The only question is whether
+the person who helped you find the product gets paid for it.**
+
+YouTubers, bloggers, and review sites earn a small commission when you click
+their link and buy something. That is how independent content creation is
+funded. Extensions like Honey intercept that attribution at checkout and
+redirect it to themselves — without the retailer lowering your price by even
+a cent.
+
+Installing HoneyKiller costs you nothing. It means the creators you read
+actually get credited for the recommendation.
+
+---
+
 ## For Bloggers: Full Analytics
 
 HoneyKiller's popup shows how many thefts have been blocked on your own device.
@@ -175,6 +212,21 @@ See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) for the full guide.
 The most impactful contribution is adding detection signatures for newly
 documented affiliate-overriding extensions. The guide walks through exactly
 how to find an extension's DOM fingerprint and submit a PR.
+
+---
+
+## Support the Project
+
+HoneyKiller is free, open source, and always will be. No paid tier. No ads.
+No data collection.
+
+If it helped a creator you follow keep their commission — or if you just
+think the internet should work this way — a coffee goes a long way:
+
+[![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20us%20a%20coffee&emoji=☕&slug=honeykiller&button_colour=ef4444&font_colour=ffffff&font_family=Inter&outline_colour=ffffff&coffee_colour=FFDD00)](https://buymeacoffee.com/honeykiller)
+
+Or [star the repo on GitHub](https://github.com/ProtectAffiliate/HoneyKiller) —
+that helps more people find it.
 
 ---
 

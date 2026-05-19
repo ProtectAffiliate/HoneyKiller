@@ -198,6 +198,26 @@ body {
   background: #1a1d2a;
 }
 
+/* ── Reader message ─────────────────────────── */
+
+.reader-msg {
+  background: #161926;
+  border: 1px solid #252a40;
+  border-left: 3px solid #f59e0b;
+  border-radius: 7px;
+  padding: 9px 11px;
+}
+
+.reader-text {
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+.reader-text strong {
+  color: #f3f4f6;
+}
+
 /* ── CTA ────────────────────────────────────── */
 
 .cta-label {
@@ -250,4 +270,9 @@ body {
 
 .footer a:hover {
   color: #6b7280;
+}
+
+.footer-coffee {
+  color: #6b7280 !important;
+  font-weight: 500;
 }
