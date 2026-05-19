@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "HoneyKiller — Commission Protection",
+  "name": "HoneyKiller — Support Your Creators",
   "short_name": "HoneyKiller",
   "version": "1.0.0",
   "description": "Your favorite creators earn when you shop their links. This makes sure they actually do. Free, open source, no data collected.",
@@ -64,7 +64,7 @@
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     },
-    "default_title": "HoneyKiller — Commission Protection"
+    "default_title": "HoneyKiller — Support Your Creators"
   },
 
   "icons": {
