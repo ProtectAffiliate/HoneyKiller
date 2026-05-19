@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||joinhoney.com^",
+      "resourceTypes": ["xmlhttprequest", "websocket", "script", "other"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||o.honey.io^",
+      "resourceTypes": ["xmlhttprequest", "other", "main_frame", "sub_frame"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||out.honey.io^",
+      "resourceTypes": ["xmlhttprequest", "other", "main_frame", "sub_frame"]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||cdn.honey.io^",
+      "resourceTypes": ["xmlhttprequest", "stylesheet", "script", "image", "other"]
+    }
+  }
+]

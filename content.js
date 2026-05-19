@@ -10,6 +10,8 @@
 
 'use strict';
 
+console.log('[HoneyKiller] content script running on:', location.href);
+
 // ─── Known affiliate tracking parameters ─────────────────────────────────────
 
 const AFFILIATE_PARAMS = [
@@ -33,14 +35,23 @@ const INTERCEPTORS = [
     name: 'Honey',
     owner: 'PayPal',
     detect() {
-      // v19+: Honey appends a React root div directly to <html> (sibling to
-      // <body>, not inside it) with a closed shadow root containing honeyStyle.
-      // This is the only reliable DOM signal for Honey v19.
-      const hasV19Root = Array.from(document.documentElement.children).some(
-        el => el !== document.head && el !== document.body &&
-              el.tagName === 'DIV' && el.hasAttribute('data-reactroot')
-      );
-      if (hasV19Root) return true;
+      // v19+: Honey injects its signature comment nodes at the document level
+      // (after </html>). ".__(.)< (MEOW)" is Honey's universal trademark.
+      // This is the fastest and most reliable v19 detection signal.
+      const commentWalker = document.createTreeWalker(document, NodeFilter.SHOW_COMMENT);
+      while (commentWalker.nextNode()) {
+        if (commentWalker.currentNode.nodeValue.includes('(MEOW)')) return true;
+      }
+      // v19 fallback: scan body divs for a closed shadow root containing #honey
+      // using the chrome.dom API which can pierce closed shadow roots in extensions.
+      if (document.body && typeof chrome !== 'undefined' && chrome.dom && chrome.dom.openOrClosedShadowRoot) {
+        for (const el of document.body.querySelectorAll('div')) {
+          try {
+            const root = chrome.dom.openOrClosedShadowRoot(el);
+            if (root && root.getElementById('honey')) return true;
+          } catch (e) { /* not a shadow host */ }
+        }
+      }
       // Legacy v18 signals (kept for older installs)
       return !!(
         document.getElementById('honey-bar') ||
@@ -52,13 +63,35 @@ const INTERCEPTORS = [
       );
     },
     suppress() {
-      // v19+: remove the React root panel injected as sibling to <body>
-      Array.from(document.documentElement.children).forEach(el => {
-        if (el !== document.head && el !== document.body &&
-            el.tagName === 'DIV' && el.hasAttribute('data-reactroot')) {
-          el.remove();
+      // v19+: find the closed shadow host (body > div > div#shadow-root(closed))
+      // and remove its outer wrapper. chrome.dom API pierces closed shadow roots.
+      if (document.body && typeof chrome !== 'undefined' && chrome.dom && chrome.dom.openOrClosedShadowRoot) {
+        for (const el of document.body.querySelectorAll('div')) {
+          try {
+            const root = chrome.dom.openOrClosedShadowRoot(el);
+            if (root && root.getElementById('honey')) {
+              // Remove the outermost anonymous wrapper if it's a direct body child
+              const wrapper = el.parentElement;
+              if (wrapper && wrapper.tagName === 'DIV' && wrapper.parentElement === document.body) {
+                wrapper.remove();
+              } else {
+                el.remove();
+              }
+              break;
+            }
+          } catch (e) { /* not a shadow host */ }
         }
-      });
+      }
+      // Remove Honey's signature comment nodes
+      const commentWalker = document.createTreeWalker(document, NodeFilter.SHOW_COMMENT);
+      const toRemove = [];
+      while (commentWalker.nextNode()) {
+        const val = commentWalker.currentNode.nodeValue;
+        if (val.includes('(MEOW)') || val.trimStart().startsWith('sp:eh:')) {
+          toRemove.push(commentWalker.currentNode);
+        }
+      }
+      toRemove.forEach(n => n.parentNode && n.parentNode.removeChild(n));
       // Legacy v18 cleanup
       [
         '#honey-bar',
@@ -71,6 +104,7 @@ const INTERCEPTORS = [
       _freeze('honey');
       _freeze('HoneyBEX');
       _freeze('__honey');
+      return true;
     }
   },
 
@@ -288,13 +322,15 @@ function scan() {
   for (const interceptor of INTERCEPTORS) {
     try {
       if (interceptor.detect()) {
+        console.log(`[HoneyKiller] detected: ${interceptor.name}`);
         const suppressed = interceptor.suppress();
+        console.log(`[HoneyKiller] suppressed: ${interceptor.name}`, suppressed);
         // Only report if suppress() actually removed DOM elements or froze globals.
         // This prevents false positives from transient DOM mutations on merchant pages.
         if (suppressed !== false) reportBlock(interceptor);
       }
-    } catch (_) {
-      // Never let a single entry's error stop the rest of the scan.
+    } catch (err) {
+      console.error(`[HoneyKiller] error scanning ${interceptor.name}:`, err);
     }
   }
 }
@@ -359,4 +395,5 @@ _observer.observe(document.documentElement, {
 // Runs immediately at document_start. The MutationObserver handles anything
 // that arrives later.
 
+console.log('[HoneyKiller] running initial scan');
 scan();

@@ -20,20 +20,59 @@ Detection signatures used by `content.js` are documented here.
 **Owner:** PayPal Inc. (acquired 2019)
 **Estimated users:** 17 million
 **Chrome extension ID:** `bmnlcjabgnpnenekpadlanbbkooimhnj`
+**Tested against version:** 19.3.0
+
+### What this means for creators
+
+Honey's browser extension is installed by millions of shoppers. When a shopper
+visits a merchant after clicking a creator's affiliate link, Honey silently
+injects a panel into the page. If the user interacts with it — or if Honey
+activates automatically — Honey's affiliate tag replaces the creator's tag in
+the order. The creator loses the commission they earned.
+
+**HoneyKiller removes Honey's panel before the user ever sees it.** The shopper's
+session is unaffected. Honey's toolbar icon remains green (Honey detects the store
+and sets its own badge — HoneyKiller cannot suppress that). But the injected page
+panel is gone, so passive hijacking cannot occur. The creator gets paid.
+
+### What this means for shoppers
+
+HoneyKiller does not uninstall Honey or disable its coupon features. If you
+deliberately click the Honey toolbar icon, Honey's popup will still open normally.
+HoneyKiller only suppresses the panel Honey injects into the page automatically —
+the part that replaces the creator's affiliate attribution without the shopper
+knowingly choosing it.
 
 ### Documented behavior
 
-Honey injects a checkout overlay at supported merchants. When activated by the
-user, the overlay communicates with Honey's servers and the merchant's affiliate
-system. Independent technical analysis and publisher reports have documented
-that this process can result in a different affiliate attribution tag being
-recorded with the merchant order.
+Honey's background service worker (`h0.js`) detects supported merchant pages and
+injects a React-based checkout overlay panel into the page DOM. The panel uses a
+**closed shadow root** which is not accessible via normal `querySelector` from the
+page. When the user interacts with the panel, or when Honey activates automatically,
+the commission is attributed to Honey's PayPal affiliate account rather than the
+creator whose link the shopper originally used.
 
-### Detection signatures
+Independent technical analysis confirms that Honey makes the following network
+calls from its service worker on every supported merchant page visit:
 
-| Type | Signal | Version |
+| Domain | Purpose |
+|--------|---------|
+| `v.joinhoney.com` | Recipe/store detection API, GraphQL product queries |
+| `s.joinhoney.com` | Commission success reporting |
+| `d.joinhoney.com` | Data/analytics API |
+| `cdn-checkout.joinhoney.com` | Version config for checkout features |
+| `o.honey.io` / `out.honey.io` | Outbound affiliate redirect (where commission is claimed) |
+| `cdn.honey.io` | CDN — `framework-selectors.json` store activation list, UI assets |
+
+HoneyKiller blocks all requests to `*.joinhoney.com` and the `*.honey.io` redirect
+domains via `declarativeNetRequest` rules, in addition to removing the DOM panel.
+
+### Detection signatures (v19.3.0, confirmed)
+
+| Type | Signal | Notes |
 |---|---|---|
-| DOM element | `html > div[data-reactroot]` (sibling to `<body>`, closed shadow root containing `#honeyStyle`) | v19+ |
+| Comment node | `<!-- .__(.)< (MEOW) -->` at document level | **Primary signal** — injected by Honey after `</html>`. Fastest and most reliable. |
+| Closed shadow root | `document.body > div > div` containing `#shadow-root(closed)` with `div#honey` inside | **v19 fallback** — found via `chrome.dom.openOrClosedShadowRoot()` API |
 | Custom element | `honey-button` | v18 legacy |
 | DOM element | `#honey-bar` | v18 legacy |
 | DOM element | `#honey-iframe` | v18 legacy |
@@ -41,7 +80,28 @@ recorded with the merchant order.
 | Global variable | `window.honey` | v18 legacy |
 | Global variable | `window.HoneyBEX` | v18 legacy |
 
-> **v19 mechanism:** Honey injects a React app (`h1-vendors-main-popover.js`) directly into `document.documentElement` as a sibling to `<body>`. The panel uses a **closed shadow root** internally, so selectors inside it (e.g. `#honeyStyle`) are not queryable from outside. The container `div[data-reactroot]` at `html >` level is the reliable signal.
+### v19 DOM structure (confirmed via DevTools inspection)
+
+```
+document
+└── <html>
+    ├── <head>
+    └── <body>
+        └── <div>                        ← outer wrapper (direct body child)
+            └── <div>                    ← shadow host
+                └── #shadow-root (closed)
+                    └── <div id="honey"> ← Honey's React panel root
+<!-- .__(.)< (MEOW) -->                  ← injected AFTER </html>
+```
+
+The shadow root is **closed**, meaning standard `querySelector` cannot reach
+`div#honey`. HoneyKiller uses the `chrome.dom.openOrClosedShadowRoot()` Chrome
+extension API to pierce the closed root, then removes the outer wrapper div.
+
+> **Previous incorrect signal (now fixed):** Earlier versions of HoneyKiller
+> documented `html > div[data-reactroot]` as the v19 detection signal. This was
+> wrong — in v19.3.0, Honey's container div is inside `<body>`, not a sibling of
+> it. The MEOW comment and `chrome.dom` API are the correct signals.
 
 ---
 

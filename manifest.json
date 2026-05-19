@@ -5,7 +5,17 @@
   "version": "1.0.0",
   "description": "Your favorite creators earn when you shop their links. This makes sure they actually do. Free, open source, no data collected.",
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "declarativeNetRequest", "declarativeNetRequestFeedback"],
+
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "honey-block",
+        "enabled": true,
+        "path": "rules/honey-block.json"
+      }
+    ]
+  },
 
   "host_permissions": [
     "*://*.amazon.com/*",
