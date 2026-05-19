@@ -12,7 +12,7 @@ Free. Open source. Zero tracking. Built by [ProtectAffiliate](https://protectaff
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Install%20Free-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](#install)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Install%20Free-FF7139?style=for-the-badge&logo=firefox&logoColor=white)](#install)
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/lalitntaparia)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/honeykiller)
+[![Support on Ko-fi](https://img.shields.io/badge/Ko--fi-Support-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/honeykiller)
 [![GitHub Stars](https://img.shields.io/github/stars/ProtectAffiliate/HoneyKiller?style=for-the-badge&color=ef4444)](https://github.com/ProtectAffiliate/HoneyKiller)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -225,9 +225,9 @@ No data collection.
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/lalitntaparia)
 
-**Buy Me a Coffee** — quick one-time support:
+**Ko-fi** — quick one-time support (0% fees):
 
-[![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20us%20a%20coffee&emoji=☕&slug=honeykiller&button_colour=ef4444&font_colour=ffffff&font_family=Inter&outline_colour=ffffff&coffee_colour=FFDD00)](https://buymeacoffee.com/honeykiller)
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/honeykiller)
 
 Or [star the repo on GitHub](https://github.com/ProtectAffiliate/HoneyKiller) —
 that helps more people find it.
