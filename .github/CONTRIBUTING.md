@@ -7,6 +7,77 @@ documented affiliate-overriding extensions.
 
 ---
 
+## How to Submit a Pull Request (step-by-step)
+
+If you are new to open source, here is the exact workflow:
+
+### 1. Fork the repository
+
+Click **Fork** (top-right of the GitHub page). This creates your own copy at
+`github.com/YOUR-USERNAME/HoneyKiller`.
+
+### 2. Clone your fork locally
+
+```bash
+git clone https://github.com/YOUR-USERNAME/HoneyKiller.git
+cd HoneyKiller
+```
+
+### 3. Create a branch
+
+Always work on a branch — never commit directly to `main`:
+
+```bash
+git checkout -b add-detection-extensionname
+```
+
+Use a descriptive branch name, e.g. `add-detection-shophunter` or
+`fix-rakuten-selector`.
+
+### 4. Make your changes
+
+Edit `content.js` and `INTERCEPTORS.md` following the guide below.
+
+### 5. Test locally
+
+Load the extension as unpacked in Chrome:
+1. Go to `chrome://extensions/`
+2. Enable **Developer mode** (top-right toggle)
+3. Click **Load unpacked** → select the repo folder
+4. Visit a merchant checkout page and confirm the overlay is blocked
+
+### 6. Commit and push
+
+```bash
+git add content.js INTERCEPTORS.md
+git commit -m "Add detection: ExtensionName (OwnerName)"
+git push origin add-detection-extensionname
+```
+
+### 7. Open a Pull Request
+
+Go to `github.com/YOUR-USERNAME/HoneyKiller` — GitHub will show a prompt to
+open a PR. Click it. Fill in the PR template that appears automatically.
+
+A maintainer will review it, may ask questions, and merge it when it passes.
+
+---
+
+## Review Process
+
+PRs are reviewed by [@lalitntaparia](https://github.com/lalitntaparia).
+
+**What we check:**
+- Detection signatures are accurate (no false positives)
+- `suppress()` removes only the extension's own elements — nothing else
+- No server calls, no data collection, no new permissions required
+- Language in `INTERCEPTORS.md` is factual and neutral
+
+**Timeline:** We aim to review within 7 days. If your PR has been open longer
+with no response, ping us in the issue thread.
+
+---
+
 ## Code of Conduct
 
 All descriptions of extension behavior must be:
