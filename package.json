@@ -1,0 +1,28 @@
+{
+  "name": "honeykiller",
+  "version": "1.0.0",
+  "description": "Blocks Honey, Capital One Shopping, Rakuten and every commission-stealing extension from hijacking affiliate commissions.",
+  "homepage": "https://honeykiller.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProtectAffiliate/HoneyKiller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ProtectAffiliate/HoneyKiller/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "browser-extension",
+    "chrome-extension",
+    "honey",
+    "affiliate",
+    "commission-protection",
+    "anti-coupon"
+  ],
+  "scripts": {
+    "generate-icons": "node scripts/generate-icons.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.4"
+  }
+}
