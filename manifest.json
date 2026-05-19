@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Your favorite creators earn when you shop their links. This makes sure they actually do. Free, open source, no data collected.",
 
-  "permissions": ["storage", "declarativeNetRequest", "declarativeNetRequestFeedback"],
+  "permissions": ["storage", "declarativeNetRequest"],
 
   "declarative_net_request": {
     "rule_resources": [

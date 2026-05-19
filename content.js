@@ -10,8 +10,6 @@
 
 'use strict';
 
-console.log('[HoneyKiller] content script running on:', location.href);
-
 // ─── Known affiliate tracking parameters ─────────────────────────────────────
 
 const AFFILIATE_PARAMS = [
@@ -322,15 +320,13 @@ function scan() {
   for (const interceptor of INTERCEPTORS) {
     try {
       if (interceptor.detect()) {
-        console.log(`[HoneyKiller] detected: ${interceptor.name}`);
         const suppressed = interceptor.suppress();
-        console.log(`[HoneyKiller] suppressed: ${interceptor.name}`, suppressed);
         // Only report if suppress() actually removed DOM elements or froze globals.
         // This prevents false positives from transient DOM mutations on merchant pages.
         if (suppressed !== false) reportBlock(interceptor);
       }
     } catch (err) {
-      console.error(`[HoneyKiller] error scanning ${interceptor.name}:`, err);
+      // ignore scan errors
     }
   }
 }
@@ -347,6 +343,64 @@ _observer.observe(document.documentElement, {
   childList: true,
   subtree: true
 });
+
+// ─── Honey body guard ────────────────────────────────────────────────────────
+//
+// Honey re-injects its panel asynchronously (via React scheduler) after each
+// removal. The general MutationObserver above catches it, but only AFTER React
+// has already rendered visible content into the shadow root — causing a brief
+// flash. This guard watches document.body childList directly and immediately
+// sets display:none on any new div before the browser can paint it, then
+// confirms it's Honey's shadow container in a microtask and removes it.
+//
+// Honey v19 structure (confirmed):
+//   body > div[id=UUID][z-index:2147483647]   ← shadow host, has a UUID id
+//                └── #shadow-root (closed)
+//                      └── div#honey          ← detection signal
+// The UUID and JSS class names change per build — only #honey is stable.
+
+let _bodyGuardInstalled = false;
+
+function _installHoneyBodyGuard() {
+  if (_bodyGuardInstalled) return;
+  if (!document.body) return;
+  _bodyGuardInstalled = true;
+
+  new MutationObserver(function(mutations) {
+    for (const m of mutations) {
+      for (const node of m.addedNodes) {
+        if (node.nodeType !== 1 || node.tagName !== 'DIV') continue;
+        // Hide synchronously before any paint
+        node.style.setProperty('display', 'none', 'important');
+        // Confirm it's Honey's shadow host (div#honey inside closed shadow root),
+        // then remove — or restore display if it's a legitimate site element.
+        Promise.resolve().then(function() {
+          if (!node.parentElement) return; // already removed by scan()
+          try {
+            if (chrome.dom && chrome.dom.openOrClosedShadowRoot) {
+              const shadow = chrome.dom.openOrClosedShadowRoot(node);
+              if (shadow && shadow.querySelector('#honey')) {
+                node.remove();
+                return;
+              }
+            }
+          } catch (_) {}
+          // Not Honey — restore visibility
+          node.style.removeProperty('display');
+        });
+      }
+    }
+  }).observe(document.body, { childList: true });
+}
+
+// Install immediately if body exists, otherwise wait for it
+if (document.body) {
+  _installHoneyBodyGuard();
+} else {
+  new MutationObserver(function(_, obs) {
+    if (document.body) { obs.disconnect(); _installHoneyBodyGuard(); }
+  }).observe(document.documentElement, { childList: true });
+}
 
 // ─── Affiliate tag capture ────────────────────────────────────────────────────
 //
@@ -394,6 +448,4 @@ _observer.observe(document.documentElement, {
 //
 // Runs immediately at document_start. The MutationObserver handles anything
 // that arrives later.
-
-console.log('[HoneyKiller] running initial scan');
 scan();
