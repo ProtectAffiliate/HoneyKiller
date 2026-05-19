@@ -97,33 +97,27 @@ const INTERCEPTORS = [
     name: 'Rakuten',
     owner: 'Rakuten Group',
     detect() {
-      // NOTE: window.pe_data is intentionally excluded — Amazon's own pages set
-      // it as part of the Rakuten affiliate network (merchant side), causing false
-      // positives. Only DOM elements injected by the actual Rakuten browser
-      // extension are used as detection signals.
-      return !!(
+      // Intentionally narrow: only the extension's own injected bar elements.
+      // [id^="rakuten-"] and [id*="ebates"] were removed — Amazon loads Rakuten
+      // affiliate partner widgets transiently that match those broad patterns,
+      // causing false positives via the MutationObserver.
+      return !!(        
         document.getElementById('pe-bar') ||
         document.querySelector('[class*="rakuten-ext"]') ||
-        document.querySelector('[id*="ebates"]') ||
-        document.querySelector('rakuten-extension-bar') ||
-        document.querySelector('[id^="rakuten-"]')
+        document.querySelector('rakuten-extension-bar')
       );
     },
     suppress() {
+      let removed = 0;
       [
         '#pe-bar',
         '[class*="rakuten-ext"]',
-        '[id*="ebates"]',
-        'rakuten-extension-bar',
-        '[id^="rakuten-"]'
+        'rakuten-extension-bar'
       ].forEach(sel => {
-        document.querySelectorAll(sel).forEach(el => el.remove());
+        document.querySelectorAll(sel).forEach(el => { el.remove(); removed++; });
       });
-      _freeze('pe_data');
-    }
-  },
-
-  {
+      if (removed > 0) _freeze('pe_data');
+      return removed > 0;
     name: 'RetailMeNot',
     owner: 'Ziff Davis',
     detect() {
@@ -280,8 +274,10 @@ function scan() {
   for (const interceptor of INTERCEPTORS) {
     try {
       if (interceptor.detect()) {
-        interceptor.suppress();
-        reportBlock(interceptor);
+        const suppressed = interceptor.suppress();
+        // Only report if suppress() actually removed DOM elements or froze globals.
+        // This prevents false positives from transient DOM mutations on merchant pages.
+        if (suppressed !== false) reportBlock(interceptor);
       }
     } catch (_) {
       // Never let a single entry's error stop the rest of the scan.
