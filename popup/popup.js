@@ -58,7 +58,11 @@ function render(totalBlocked, blockHistory) {
 
   // ── Recent blocks list ───────────────────
   const list   = document.getElementById('block-list');
-  const recent = (blockHistory || []).slice(0, 5);
+  const recent = (blockHistory || [])
+    .filter((entry, i, arr) =>
+      arr.findIndex(e => e.thief === entry.thief && e.merchant === entry.merchant) === i
+    )
+    .slice(0, 5);
 
   if (recent.length === 0) {
     list.innerHTML =

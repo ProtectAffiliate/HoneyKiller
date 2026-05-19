@@ -69,10 +69,19 @@ with zero configuration.
 HoneyKiller runs silently in your browser. The moment you reach a supported
 merchant checkout page (Amazon, eBay, ShareASale, CJ, Impact, Awin, and more),
 it scans for every known affiliate-overriding extension and removes their
-checkout overlays before they can activate.
+checkout overlays before the user ever sees them.
 
 No UI pops up. Nothing asks you to click anything. The override overlay simply
 never appears — and your affiliate tag stays exactly where you put it.
+
+**With HoneyKiller installed, Honey and similar extensions cannot silently change
+affiliate credits. They can only affect a purchase if the user deliberately opens
+the extension themselves.**
+
+Honey's toolbar icon may still appear green (Honey detects the merchant page and
+sets its own badge — that is controlled by Honey, not this extension). But the
+panel Honey injects into the page is removed. Passive, silent commission hijacking
+cannot occur.
 
 **One job. Done silently. Every time.**
 
@@ -123,7 +132,7 @@ does and does not do:
 | Does it read my browsing history? | **No.** The `history` permission is not requested. |
 | Does it access all my tabs? | **No.** The `tabs` permission is not requested. |
 | Does it send any data anywhere? | **No.** V1 sends zero data. Everything stays local in `chrome.storage.local`. |
-| What permissions does it need? | Only `storage` — to count blocks locally. |
+| What permissions does it need? | `storage` (count blocks locally) · `declarativeNetRequest` (block Honey's affiliate redirect domains at the network level — no data is read or sent) |
 | What sites does it run on? | Only the [specific merchant domains](manifest.json) listed in `manifest.json`. Not on every website. |
 | Who can verify this? | **Everyone.** [Read every line of the source code here.](https://github.com/ProtectAffiliate/HoneyKiller) |
 
