@@ -2,7 +2,7 @@
   "name": "honeykiller",
   "version": "1.0.0",
   "description": "Blocks Honey, Capital One Shopping, Rakuten and every commission-stealing extension from hijacking affiliate commissions.",
-  "homepage": "https://honeykiller.com",
+  "homepage": "https://github.com/protectaffiliate/honeykiller",
   "repository": {
     "type": "git",
     "url": "https://github.com/ProtectAffiliate/HoneyKiller.git"
